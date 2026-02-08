@@ -25,7 +25,6 @@ jobs:
   sast-bandit:
     name: SAST Scan (Bandit)
     runs-on: [self-hosted, Linux, x64]
-    needs: unit-test
 
     steps:
       - name: Checkout Code
