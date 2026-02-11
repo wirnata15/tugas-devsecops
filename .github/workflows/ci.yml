@@ -4,7 +4,7 @@ on: [push]
 jobs:
   unit-test:
     name: Unit Test (pytest)
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, X64]
 
     steps:
       - name: Checkout Code
@@ -26,7 +26,7 @@ jobs:
 
   sast-bandit:
     name: SAST Scan (Bandit)
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, X64]
 
     steps:
       - name: Checkout Code
@@ -45,7 +45,7 @@ jobs:
 
   sca-pip-audit:
     name: SCA (pip-audit)
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, X64]
 
     steps:
       - name: Checkout Code
@@ -70,7 +70,7 @@ jobs:
 
   secret-scan:
     name: Secret Scan (Gitleaks)
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, X64]
 
     steps:
       - name: Checkout Code
@@ -85,7 +85,7 @@ jobs:
 
   build-and-push:
     name: Build & Push Docker Image
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, X64]
     needs: [unit-test, sast-bandit, sca-pip-audit, secret-scan]
 
     steps:
@@ -109,7 +109,7 @@ jobs:
 
   image-scan:
     name: Image Scan (Trivy)
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, X64]
     needs: [build-and-push]
 
     steps:
