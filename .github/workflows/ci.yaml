@@ -95,3 +95,18 @@ jobs:
       - name: Push Docker Image
         run: |
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/test-devsecops:latest
+  image-scan-trivy:
+    name: Image Scan (Trivy)
+    runs-on: [self-hosted, Linux, x64]
+    needs: build-and-push
+
+    steps:
+      - name: Scan Image from Docker Hub
+        uses: aquasecurity/trivy-action@0.24.0
+        with:
+          image-ref: ${{ secrets.DOCKERHUB_USERNAME }}/test-devsecops:latest
+          format: table
+          exit-code: 1
+          ignore-unfixed: true
+          vuln-type: "os,library"
+          severity: "CRITICAL,HIGH"
