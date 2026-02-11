@@ -101,14 +101,11 @@ jobs:
       - name: Build Docker Image
         run: |
           docker build \
-            -t ${{ secrets.DOCKERHUB_USERNAME }}/test-devsecops:latest \
-            -t ${{ secrets.DOCKERHUB_USERNAME }}/test-devsecops:${{ github.sha }} \
-            .
+            -t ${{ secrets.DOCKERHUB_USERNAME }}/test-devsecops:latest .
 
       - name: Push Docker Image
         run: |
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/test-devsecops:latest
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/test-devsecops:${{ github.sha }}
 
   image-scan:
     name: Image Scan (Trivy)
@@ -125,6 +122,6 @@ jobs:
       - name: Run Trivy Scan
         uses: aquasecurity/trivy-action@0.30.0
         with:
-          image-ref: ${{ secrets.DOCKERHUB_USERNAME }}/test-devsecops:${{ github.sha }}
+          image-ref: ${{ secrets.DOCKERHUB_USERNAME }}/test-devsecops:latest
           format: "table"
           severity: "CRITICAL,HIGH"
